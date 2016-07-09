@@ -18,6 +18,9 @@ When decising on how to create my model, I had to investigate the variables that
 ![scatterplot1](https://cloud.githubusercontent.com/assets/20291218/16707492/f01d8bf0-459d-11e6-9d10-d0b60725215a.jpeg)
 
 
+![scatterplot2](https://cloud.githubusercontent.com/assets/20291218/16707493/1ba802a0-459e-11e6-9a9c-7ff013e85ee1.jpeg)
+
+
 
 
 
