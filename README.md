@@ -5,6 +5,4 @@ Probably the most repeated phrase when it comes to hitting is "keep your eye on 
 
 The data used in this project was from a Pitch/fx database I created by scraping every pitch from 2008 to 2014. While there are already databases from Baseball Heat Maps (http://www.baseballheatmaps.com/pitch-fx-download/), I wanted to create my own to famialize myself more with working with Pitch/fx data. Once I scraped all the data, I ran several queries on MySQL to join the Pitching and Batting tables to create a new data frame baseball_data. This data is shown here:
 
-| pitcher_name | batter_name |des| type|pitch_type|
-| ------------ | ----------- |
-|A.J. Burnett  | Johnny Damon |
+
