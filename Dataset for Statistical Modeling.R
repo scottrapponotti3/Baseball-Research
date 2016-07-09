@@ -4,7 +4,6 @@ library(RMySQL)
 drv=dbDriver("MySQL")
 MLB=dbConnect(drv,user="root",password="keno2829",port=3306,dbname="pitchfx_data",host="localhost")
 baseball_data=dbGetQuery(MLB,"select * from baseball_data")
-library(dplyr)
 baseball_data=subset(baseball_data,pitch_type!="AB")
 baseball_data=subset(baseball_data,pitch_type!="UN")
 baseball_data=subset(baseball_data,pitch_type!="IN")
@@ -19,7 +18,7 @@ for (i in 1:1505)
 {
 	pitcher=Number.Pitches[i,1]
 	if (Boo[i]){
-		baseball_new=subset(baseball_data,pitcher_name!=pitcher)
+		baseball_data=subset(baseball_data,pitcher_name!=pitcher)
 	}
 }
 #This loops through to remove all pitchers who haven't thrown at least 800 pitches.
@@ -74,6 +73,7 @@ t_ratio=function(d,pitcher){
 #This block of code was created to connect up the pitch fx by pitch data to the overall season statistics for each pitcher from the Lahman database
 library(Lahman)
 library(dplyr)
+library(car)
 pitching = filter(Pitching,yearID>=2008)
 pitching = pitching %>% left_join(Master, by="playerID")
 pitching = pitching %>% arrange(playerID)
@@ -97,7 +97,8 @@ all_pitch_test=p_t20[sample(nrow(p_t20),size=20000),] #creates a testing set of 
 R_pitchers=subset(all_pitch_train, throws=="R")
 L_pitchers=subset(all_pitch_train, throws=="L")
 
-scatterplot.Matrix(~px+x_t+vx+spin_rate | throws,data=all_pitch_train)
+scatterplotMatrix(~px+x_t+vx | throws,data=all_pitch_train)
+scatterplotMatrix(~pz+z_t+vz | throws,data=all_pitch_train)
 
 plot(R_pitchers$x_t,R_pitchers$px,col="blue",xlab="Horizontal Position at 20sec",ylab="Final Horizontal Position")
 points(L_pitchers$x_t,L_pitchers$px,col="red")
