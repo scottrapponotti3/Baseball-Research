@@ -15,6 +15,8 @@ Essentially I wanted to look at three questions with this research:
 
 When decising on how to create my model, I had to investigate the variables that a batter would see as the pitch would cross the plate, and create plots to look for relationships. I created two functions t_predictor and distance_predictor that would calculate the relative position and velocity of the pitch in both the x and z directions using kinematic equations, and merged the season statistics from the Lahman database with that of the Pitch/fx data. Then I created my testing and training sets that would be used for modeling and testing.
 
+These two scatterplots are of the final x and z positions (px and pz) and how they relate to the position and velocity (x_t,z_t, vx, and vz) at a time of 20s from the release of the ball. We can already see that the starting position of the ball is going to be a factor in the model due to the fact that the handedness of the pitcher.
+
 ![scatterplot1](https://cloud.githubusercontent.com/assets/20291218/16707492/f01d8bf0-459d-11e6-9d10-d0b60725215a.jpeg)
 
 
