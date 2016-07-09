@@ -15,6 +15,8 @@ Essentially I wanted to look at three questions with this research:
 
 When decising on how to create my model, I had to investigate the variables that a batter would see as the pitch would cross the plate, and create plots to look for relationships. I created two functions t_predictor and distance_predictor that would calculate the relative position and velocity of the pitch in both the x and z directions using kinematic equations, and merged the season statistics from the Lahman database with that of the Pitch/fx data. Then I created my testing and training sets that would be used for modeling and testing.
 
+![scatterplot1](https://cloud.githubusercontent.com/assets/20291218/16707466/a6863236-459c-11e6-97f8-187ffff16a1b.jpeg)
+
 
 
 
