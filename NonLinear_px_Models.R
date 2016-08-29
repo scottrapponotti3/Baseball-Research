@@ -3,6 +3,7 @@
 #Plots the predictors vs the predictant values then use validation set approach to find the degrees of freedom
 #that minimizes the MSE (test error rate)
 library(splines)
+library(gam)
 attach(p_t20)
 test = p_t20[sample(nrow(p_t20), 10000),]
 plot(test$x_t, test$px, col="darkgray", xlab="Horizontal Position at Time t", ylab="Final Horizontal Position")
@@ -120,7 +121,7 @@ for (i in 1:length(spans)) {
 #Generalized Additive Model (One subset of models include spin rate and direction and one that does not)
 #The gam package allows generalized additive models in which s is smoothing splines (the numbers are the degrees of freedom obtained from cross validation)
 #and lo is local regression with spans that where obtained that had the lowest test error rate using validation set
-library(gam)
+
 model1 = lm(px ~ pitch_type + ns(x_t, 4) + ns(vx, 5), data = p_t20, subset = train)
 model2 = gam(px ~ pitch_type + s(x_t, 21.54186) + s(vx, 30.76314), data = p_t20, subset = train)
 model3 = gam(px ~ pitch_type + lo(x_t,span = 0.1) + lo(vx,span = 0.1), data = p_t20, subset = train)
