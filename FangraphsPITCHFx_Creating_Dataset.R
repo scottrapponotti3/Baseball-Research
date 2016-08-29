@@ -1,7 +1,7 @@
 #Fangraphs and PITCHFx Creating the Dataset and Applying Models
 #Scott Rapponotti 	8/29/2016
 
-#Code that connects Fangraphs swing data to that of Lahman Database and PITCHFx
+#Code that connects Fangraphs swing data to that of Lahman Database and PITCH/fx
 #Dataframe that contains the Pitcher's name, Team, O.Swing%, Z.Swing%, Swing%, O.Contact%, Z.Contact%,
 #Contact%  Zone% F.Strike% SwStr% year  innings  SO  throws(R or L),  age, 
 #msex (MSE for model predicting the final horizontal location), and msez (MSE for model predicting the final vertical position)
@@ -11,7 +11,7 @@ library(dplyr)
 library(Lahman)
 library(splines)
 library(gam)
-drv = dbDriver("MySQL") #query from the PITCHFx database I created, the dataframe baseball_data
+drv = dbDriver("MySQL") #query from the PITCH/fx database I created, the dataframe baseball_data
 MLB = dbConnect(drv,user = "root", password = "keno2829", port = 3306, dbname = "pitchfx_data", host = "localhost")
 baseball_data = dbGetQuery(MLB,"select * from baseball_data") #start with the default baseball_data R file
 baseball_data=subset(baseball_data, pitch_type %in% c("SI","FF","KC","CH","SL","CU","FT","FC","FS")) #remove unwanted pitches
