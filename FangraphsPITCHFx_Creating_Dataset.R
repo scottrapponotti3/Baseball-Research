@@ -9,8 +9,6 @@
 library(RMySQL)
 library(dplyr)
 library(Lahman)
-library(splines)
-library(gam)
 drv = dbDriver("MySQL") #query from the PITCH/fx database I created, the dataframe baseball_data
 MLB = dbConnect(drv,user = "root", password = "keno2829", port = 3306, dbname = "pitchfx_data", host = "localhost")
 baseball_data = dbGetQuery(MLB,"select * from baseball_data") #start with the default baseball_data R file
@@ -63,15 +61,6 @@ p_t20$year = as.numeric(substr(p_t20$date, 1, 4)) #creates the year of the pitch
 
 #**********************************************************************************
 #Functions
-#t_ratio takes in the name and year that the pitcher pitched and takes the average of the predicted 
-#x and z values for that given year and pitcher
-t_ratio = function(pitcher, years) {
-	data = subset(p_t20, pitcher_name == pitcher & year == years)
-	predict_x = mean(data$predictx, na.rm = TRUE)
-	predict_z = mean(data$predictz, na.rm = TRUE)
-	out = data.frame(predict_x, predict_z)
-}
-
 #This function was created so that for any time t_d from the release of the pitch and for any data frame, outputs a dataframe that 
 #for every pitch, calculates the position and velocities at that time
 
