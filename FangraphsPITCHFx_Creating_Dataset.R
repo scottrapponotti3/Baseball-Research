@@ -1,10 +1,11 @@
-#Fangraphs and PITCHFx Creating the Dataset and Applying Models
+#Fangraphs and PITCHFx Creating the Dataset
 #Scott Rapponotti 	8/29/2016
 
-#Code that connects Fangraphs swing data to that of Lahman Database and PITCHFx
-#Dataframe that contains the Pitcher's name, Team, O.Swing%, Z.Swing%, Swing%, O.Contact%, Z.Contact%,
-#Contact%  Zone% F.Strike% SwStr% year  innings  SO  throws(R or L),  age, 
-#msex (MSE for model predicting the final horizontal location), and msez (MSE for model predicting the final vertical position)
+#Code that connects Fangraphs swing data to that of Lahman Database and PITCHFx into a dataframe used for future modeling
+#Dataframe baseball_data that contains the PITCHf/x data for 2008-2014
+#Dataframe inplay_data which is a subset of baseball_data of balls put in play and includes the linear weight values from OBA
+#Dataframe pitch_data that incorporates Fangraphs Plate Discpline, Batted Ball, and Lahman Data for the season statistics of each pitcher 
+
 
 library(RMySQL)
 library(dplyr)
@@ -67,4 +68,3 @@ OBA_weights = data.frame(rep(2008:2014,each = 5), rep(c("1B", "2B", "3B", "HR", 
 	c(0.896,1.259,1.587,2.024,0,0.895,1.258,1.585,2.023,0,0.895,1.27,1.608,2.072,0,0.89,1.27,1.611,2.086,0,0.884,1.257,1.593,2.058,0,0.888,1.271,1.616,2.101,0,0.892,1.283,1.635,2.135,0))
 colnames(OBA_weights) = c("year", "result", "RunsValue")
 inplay_data = inplay_data %>% inner_join(OBA_weights, by = c("year", "result")) #gives the linear weight coefficients for every single atbat result
-
