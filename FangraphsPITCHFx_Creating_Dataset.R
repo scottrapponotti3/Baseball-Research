@@ -1,11 +1,9 @@
-#Fangraphs and PITCHFx Creating the Dataset
+#Fangraphs and PITCHFx Creating the Dataset and Applying Models
 #Scott Rapponotti 	8/29/2016
 
-#Code that connects Fangraphs swing data to that of Lahman Database and PITCHFx into a dataframe used for future modeling
-#Dataframe baseball_data that contains the PITCHf/x data for 2008-2014
-#Dataframe inplay_data which is a subset of baseball_data of balls put in play and includes the linear weight values from OBA
-#Dataframe pitch_data that incorporates Fangraphs Plate Discpline, Batted Ball, and Lahman Data for the season statistics of each pitcher 
-
+#Code that connects Fangraphs swing data to that of Lahman Database and PITCHFx
+#Dataframe that contains the Pitcher's name, Team, O.Swing%, Z.Swing%, Swing%, O.Contact%, Z.Contact%,
+#Contact%  Zone% F.Strike% SwStr% year  innings  SO  throws(R or L),  age, 
 
 library(RMySQL)
 library(dplyr)
@@ -23,15 +21,16 @@ setwd("C:/Baseball/REsearch") #set working directory. Place Fangraph files in he
 #These csv files contain data from Fangraphs of Plate Displine and Batted Balls from 2008 to 2014
 colnames1 = c("pitcher_name","Team","O-Swing%","Z-Swing%","Swing%","O-Contact%","Z-Contact%","Contact%","Zone%","F-Strike%","SwStr%","playerid")
 colnames2 = c("pitcher_name","Team","BABIP","GB/FB","LD%","GB%","FB%","IFFB%","HR/FB","RS","RS/9","Balls","Strikes","Pitches","Pull%","Cent%","Oppo%","Soft%","Med%","Hard%","playerid")
-data08 = read.csv("FanGraphsLeaderboard2008.csv", col.names = colnames1,stringsAsFactors = FALSE) %>% inner_join(read.csv("FanGraphsLeaderboard_HARDHIT2008.csv", col.names=colnames2, stringsAsFactors = FALSE), by = "pitcher_name") %>% mutate(year = 2008)
-data09 = read.csv("FanGraphsLeaderboard2009.csv", col.names = colnames1,stringsAsFactors = FALSE) %>% inner_join(read.csv("FanGraphsLeaderboard_HARDHIT2009.csv", col.names=colnames2, stringsAsFactors = FALSE), by = "pitcher_name") %>% mutate(year = 2009)
-data10 = read.csv("FanGraphsLeaderboard2010.csv", col.names = colnames1,stringsAsFactors = FALSE) %>% inner_join(read.csv("FanGraphsLeaderboard_HARDHIT2010.csv", col.names=colnames2, stringsAsFactors = FALSE), by = "pitcher_name") %>% mutate(year = 2010)
-data11 = read.csv("FanGraphsLeaderboard2011.csv", col.names = colnames1,stringsAsFactors = FALSE) %>% inner_join(read.csv("FanGraphsLeaderboard_HARDHIT2011.csv", col.names=colnames2, stringsAsFactors = FALSE), by = "pitcher_name") %>% mutate(year = 2011)
-data12 = read.csv("FanGraphsLeaderboard2012.csv", col.names = colnames1,stringsAsFactors = FALSE) %>% inner_join(read.csv("FanGraphsLeaderboard_HARDHIT2012.csv", col.names=colnames2, stringsAsFactors = FALSE), by = "pitcher_name") %>% mutate(year = 2012)
-data13 = read.csv("FanGraphsLeaderboard2013.csv", col.names = colnames1,stringsAsFactors = FALSE) %>% inner_join(read.csv("FanGraphsLeaderboard_HARDHIT2013.csv", col.names=colnames2, stringsAsFactors = FALSE), by = "pitcher_name") %>% mutate(year = 2013)
-data14 = read.csv("FanGraphsLeaderboard2014.csv", col.names = colnames1,stringsAsFactors = FALSE) %>% inner_join(read.csv("FanGraphsLeaderboard_HARDHIT2014.csv", col.names=colnames2, stringsAsFactors = FALSE), by = "pitcher_name") %>% mutate(year = 2014)
+data08 = read.csv("FanGraphsLeaderboard2008.csv", col.names = colnames1, stringsAsFactors = FALSE) %>% inner_join(read.csv("FanGraphsLeaderboard_HARDHIT2008.csv", col.names=colnames2, stringsAsFactors = FALSE), by = "pitcher_name") %>% mutate(year = 2008)
+data09 = read.csv("FanGraphsLeaderboard2009.csv", col.names = colnames1, stringsAsFactors = FALSE) %>% inner_join(read.csv("FanGraphsLeaderboard_HARDHIT2009.csv", col.names=colnames2, stringsAsFactors = FALSE), by = "pitcher_name") %>% mutate(year = 2009)
+data10 = read.csv("FanGraphsLeaderboard2010.csv", col.names = colnames1, stringsAsFactors = FALSE) %>% inner_join(read.csv("FanGraphsLeaderboard_HARDHIT2010.csv", col.names=colnames2, stringsAsFactors = FALSE), by = "pitcher_name") %>% mutate(year = 2010)
+data11 = read.csv("FanGraphsLeaderboard2011.csv", col.names = colnames1, stringsAsFactors = FALSE) %>% inner_join(read.csv("FanGraphsLeaderboard_HARDHIT2011.csv", col.names=colnames2, stringsAsFactors = FALSE), by = "pitcher_name") %>% mutate(year = 2011)
+data12 = read.csv("FanGraphsLeaderboard2012.csv", col.names = colnames1, stringsAsFactors = FALSE) %>% inner_join(read.csv("FanGraphsLeaderboard_HARDHIT2012.csv", col.names=colnames2, stringsAsFactors = FALSE), by = "pitcher_name") %>% mutate(year = 2012)
+data13 = read.csv("FanGraphsLeaderboard2013.csv", col.names = colnames1, stringsAsFactors = FALSE) %>% inner_join(read.csv("FanGraphsLeaderboard_HARDHIT2013.csv", col.names=colnames2, stringsAsFactors = FALSE), by = "pitcher_name") %>% mutate(year = 2013)
+data14 = read.csv("FanGraphsLeaderboard2014.csv", col.names = colnames1, stringsAsFactors = FALSE) %>% inner_join(read.csv("FanGraphsLeaderboard_HARDHIT2014.csv", col.names=colnames2, stringsAsFactors = FALSE), by = "pitcher_name") %>% mutate(year = 2014)
 Fangraphs = rbind(data08, data09, data10, data11, data12, data13, data14)
-Fangraphs$playerid = NULL
+Fangraphs$playerid.x = NULL
+Fangraphs$playerid.y = NULL
 
 #Load data table Pitching from the Lahman database 
 pitching = filter(Pitching, yearID >= 2008)
@@ -56,8 +55,30 @@ pitch_data = Fangraphs %>% left_join(pitch_data, by = c("pitcher_name", "year"))
 pitch_data$Kper9 = signif(with(pitch_data,(SO / innings) * 9), 3) 
 pitch_data = with(pitch_data, pitch_data[order(pitcher_name, year),]) #order the data alphabetically and numerically by year
 pitch_data$pitcher_name = gsub("[.]","", pitch_data$pitcher_name)
-pitcher_names = unique(as.vector(pitch_data$pitcher_name)) #find all the unique pitchers in Fangraphs data
-baseball_data = subset(baseball_data, pitcher_name %in% pitcher_names) #Only Pitchfx data for pitchers in Fangraphs data
+pitch_data = subset(pitch_data, pitcher_name %in% baseball_data$pitcher_name) #Only Pitchfx data for pitchers in Fangraphs data
+
+#Clean up data set by converting from character to numeric data types
+pitch_data$O.Swing = mapply(function(x){as.numeric(strsplit(x, " ")[[1]][1])}, pitch_data$O.Swing.)
+pitch_data$Z.Swing. = mapply(function(x){as.numeric(strsplit(x, " ")[[1]][1])}, pitch_data$Z.Swing.)
+pitch_data$Swing. = mapply(function(x){as.numeric(strsplit(x, " ")[[1]][1])}, pitch_data$Swing.)
+pitch_data$O.Contact. = mapply(function(x){as.numeric(strsplit(x, " ")[[1]][1])}, pitch_data$O.Contact.)
+pitch_data$Z.Contact. = mapply(function(x){as.numeric(strsplit(x, " ")[[1]][1])}, pitch_data$Z.Contact.)
+pitch_data$Contact. = mapply(function(x){as.numeric(strsplit(x, " ")[[1]][1])}, pitch_data$Contact.)
+pitch_data$Zone. = mapply(function(x){as.numeric(strsplit(x, " ")[[1]][1])}, pitch_data$Zone.)
+pitch_data$F.Strike. = mapply(function(x){as.numeric(strsplit(x, " ")[[1]][1])}, pitch_data$F.Strike.)
+pitch_data$SwStr. = mapply(function(x){as.numeric(strsplit(x, " ")[[1]][1])}, pitch_data$SwStr.)
+pitch_data$LD. = mapply(function(x){as.numeric(strsplit(x, " ")[[1]][1])}, pitch_data$LD.)
+pitch_data$GB. = mapply(function(x){as.numeric(strsplit(x, " ")[[1]][1])}, pitch_data$GB.)
+pitch_data$FB. = mapply(function(x){as.numeric(strsplit(x, " ")[[1]][1])}, pitch_data$FB.)
+pitch_data$IFFB. = mapply(function(x){as.numeric(strsplit(x, " ")[[1]][1])}, pitch_data$IFFB.)
+pitch_data$HR.FB = mapply(function(x){as.numeric(strsplit(x, " ")[[1]][1])}, pitch_data$HR.FB)
+pitch_data$Pull. = mapply(function(x){as.numeric(strsplit(x, " ")[[1]][1])}, pitch_data$Pull.)
+pitch_data$Cent. = mapply(function(x){as.numeric(strsplit(x, " ")[[1]][1])}, pitch_data$Cent.)
+pitch_data$Oppo. = mapply(function(x){as.numeric(strsplit(x, " ")[[1]][1])}, pitch_data$Oppo.)
+pitch_data$Soft. = mapply(function(x){as.numeric(strsplit(x, " ")[[1]][1])}, pitch_data$Soft.)
+pitch_data$Med. = mapply(function(x){as.numeric(strsplit(x, " ")[[1]][1])}, pitch_data$Med.)
+pitch_data$Hard. = mapply(function(x){as.numeric(strsplit(x, " ")[[1]][1])}, pitch_data$Hard.)
+
 inplay_data = subset(baseball_data, type == "X") #find only the balls put in play
 inplay_data$result = with(inplay_data, ifelse(grepl("singles", atbat_des), "1B", ifelse(grepl("doubles", atbat_des),
 	"2B", ifelse(grepl("triples", atbat_des), "3B", ifelse(grepl("homers", atbat_des), "HR", "Out")))))
@@ -68,3 +89,10 @@ OBA_weights = data.frame(rep(2008:2014,each = 5), rep(c("1B", "2B", "3B", "HR", 
 	c(0.896,1.259,1.587,2.024,0,0.895,1.258,1.585,2.023,0,0.895,1.27,1.608,2.072,0,0.89,1.27,1.611,2.086,0,0.884,1.257,1.593,2.058,0,0.888,1.271,1.616,2.101,0,0.892,1.283,1.635,2.135,0))
 colnames(OBA_weights) = c("year", "result", "RunsValue")
 inplay_data = inplay_data %>% inner_join(OBA_weights, by = c("year", "result")) #gives the linear weight coefficients for every single atbat result
+
+d_40_inplay = distance_plate(inplay_data, 40) #finds the data of the ball at a distance 40ft from the plate
+d_40_inplay = cbind(inplay_data[,c("pitcher_name","year","pitch_type","px","pz","spin_rate","spin_dir","result","RunsValue")],d_40_inplay)
+pitchers_play = aggregate(d_40_inplay[,c("px","pz","x_d","z_d","vx","vz","t_d","t_tot","t_rem", "spin_rate","spin_dir")], list(pitcher_name=d_40_inplay$pitcher_name, year=d_40_inplay$year, pitch_type=d_40_inplay$pitch_type), FUN=mean, na.rm=TRUE)
+#groups together data by pitcher name year and pitch type and averages out the positions velocities, times and spins of the ball for each group
+#This is a way of quickly running test cases to compare pitcher year by year data. Can later be joined with pitch_data
+pitchers_play = with(pitchers_play, pitchers_play[order(pitcher_name, year),])
