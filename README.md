@@ -14,7 +14,7 @@ In summary I wanted to look at three questions with this research:
 
 **2. How do the models of the pitch at different times and distances compare?**
 
-**3. How do we utilize this information and what does this mean? How well do batter's read and predict each pitcher's pitch and how does their deception relate to other stats? (eg. SwgStr%, SoftHit%, HardHit%, LD%, ZContact%) **
+**3. How do we utilize this information and what does this mean? How well do batter's read and predict each pitcher's pitch and how does their deception relate to other stats? (eg. SwgStr%, SoftHit%, HardHit%, LD%, ZContact%)**
 
 
 
