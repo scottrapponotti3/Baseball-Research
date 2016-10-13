@@ -73,4 +73,4 @@ pitchers_play = pitchers_play %>% inner_join(throws, by = "pitcher_name")
 p = pitchers_play[pitchers_play$year>2010,c("pitcher_name","year","des")]
 p = p[!duplicated(p),]
 pitch_data_test = pitch_data_test %>% left_join(p, by = c("pitcher_name","year")) #Now we have pitcher description of pitch mix
-#for example FF,SI,CU would be a pitcher mix of four-seam fastball, slider, and cutter
+#for example FF,SI,CU would be a pitcher mix of four-seam fastball, slider, and curveball
