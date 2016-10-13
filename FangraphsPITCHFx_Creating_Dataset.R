@@ -89,10 +89,3 @@ OBA_weights = data.frame(rep(2008:2014,each = 5), rep(c("1B", "2B", "3B", "HR", 
 	c(0.896,1.259,1.587,2.024,0,0.895,1.258,1.585,2.023,0,0.895,1.27,1.608,2.072,0,0.89,1.27,1.611,2.086,0,0.884,1.257,1.593,2.058,0,0.888,1.271,1.616,2.101,0,0.892,1.283,1.635,2.135,0))
 colnames(OBA_weights) = c("year", "result", "RunsValue")
 inplay_data = inplay_data %>% inner_join(OBA_weights, by = c("year", "result")) #gives the linear weight coefficients for every single atbat result
-
-d_40_inplay = distance_plate(inplay_data, 40) #finds the data of the ball at a distance 40ft from the plate
-d_40_inplay = cbind(inplay_data[,c("pitcher_name","year","pitch_type","px","pz","spin_rate","spin_dir","result","RunsValue")],d_40_inplay)
-pitchers_play = aggregate(d_40_inplay[,c("px","pz","x_d","z_d","vx","vz","t_d","t_tot","t_rem", "spin_rate","spin_dir")], list(pitcher_name=d_40_inplay$pitcher_name, year=d_40_inplay$year, pitch_type=d_40_inplay$pitch_type), FUN=mean, na.rm=TRUE)
-#groups together data by pitcher name year and pitch type and averages out the positions velocities, times and spins of the ball for each group
-#This is a way of quickly running test cases to compare pitcher year by year data. Can later be joined with pitch_data
-pitchers_play = with(pitchers_play, pitchers_play[order(pitcher_name, year),])
