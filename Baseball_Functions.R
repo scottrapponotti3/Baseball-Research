@@ -41,7 +41,7 @@ t_plate = function(data, t_plate) {
 #tFB is the time of each fastball thrown 
 t_pitcher = function(pitcher) {
 	data = subset(baseball_data, pitcher_name == pitcher)
-	dataFF = subset(data, pitch_type == "FF")
+	dataFF = subset(data, pitch_type == "FF" | pitch_type == "FT" | pitch_type == "FC")
 	vy0FF = -1 * sqrt(((mean(dataFF$start_speed) / 0.681818)^ 2 - mean(dataFF$vx0) ^ 2 - mean(dataFF$vz0) ^ 2))
 	vyFF = - 1 * sqrt(mean(dataFF$vy0) ^ 2 + 2 * mean(dataFF$ay) * (-48.583))
 	tFB = (vyFF - vy0FF) / mean(dataFF$ay)
@@ -96,4 +96,43 @@ pitcher_des = function(pitcher, years) {
     des = ifelse(length(pitches) <= 3, paste(pitches,collapse=",",sep=""), paste(pitches[1],",", pitches[2],",", pitches[3],",", pitches[4]))
     des = gsub(" ","",des)
     return (des)
+}
+
+#Function that calculates the pitcher deception by finding the mean square error, that is the squared difference between
+#the actual final x and z position of the ball and the predicted positions from model3x. model3x is a generalized additive model
+#of trhe predicted final position from the position and the velocity at a given time of the flight of the ball
+xz_deception = function(pitcher, years) {
+    data = subset(inplay_data, pitcher_name==pitcher & year==years)
+    predict_x = mean((data$px - predict(model3x, data))^2, na.rm = TRUE)
+    predict_z = mean((data$pz - predict(model3z, data))^2, na.rm = TRUE)
+    output = data.frame(predict_x, predict_z)
+}
+
+#Function that calculates the pitcher time deception by finding the mean square error, that is the squared difference between
+#the remaining time of the ball and the predicted remaining time from modelt. modelt is a generalized additive model
+#of the predicted remaining time for the ball to cross the plate at a given distance from the mound
+t_deception = function(pitcher, years) {
+    data = subset(inplay_data_test, pitcher_name==pitcher & year==years)
+    predict_t = mean((data$t_rem - predict(modelt, data))^2, na.rm = TRUE)
+    return (predict_t)
+}
+
+
+#This function creates plots of the x deception over different distances the ball traveled of each inputed pitcher and year pitched.
+#This is used to interpret how the deception changes and to identify clusters to group different pitchers.
+pitcher_analysis = function(pitcher, years) {
+    mse = vector("numeric", length = 9)
+    i = 0
+    for (d in seq(5,45,5)) {
+        dataset = distance_plate(inplay_data, d)
+        dataset = cbind(inplay_data, dataset)
+        model = gam(px ~ s(x_d, with(dataset, smooth.spline(x_d, px, cv = FALSE))$df) + s(vx, with(dataset, smooth.spline(vx, px, cv = FALSE))$df), data = dataset)
+        test = filter(dataset, pitcher_name == pitcher & years == year)
+        test = aggregate(test[,c("px","pz","x_d","z_d","vx","vz","t_d","t_tot","t_rem")], list(pitcher_name=test$pitcher_name, year=test$year), FUN=mean, na.rm=TRUE)
+        predictx = predict(model3x, test)
+        msexvx = (test$px - predictx)^2
+        mse[i] = msexvx
+        i = i + 1
+    }
+    lines(x=seq(5,45,5), y=mse, type="b")
 }
