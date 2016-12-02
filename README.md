@@ -18,11 +18,15 @@ In the figure below is the x-deception (the average squared difference of the fi
 
 ![xdeception_distance](https://cloud.githubusercontent.com/assets/20291218/20826989/bfa38eea-b83c-11e6-9657-7c6ea641c972.jpeg)
 
-In the figure below is the z-deception (the average squared difference of the final z position and the predicted z) for 10 different pitcher and the year they pitched over a distance from the plate of 45ft to 5ft.
+In the figure below is the z-deception (the average squared difference of the final z position and the predicted z) for 10 different pitcher and the year they pitched over a distance from the plate of 45ft to 5ft. Here the z deception plots are much more scattered and don't have a set pattern like the x and time deception, making it more difficult to cluster differents pitchers.
 
 ![zdeception_distance2](https://cloud.githubusercontent.com/assets/20291218/20827215/6fe7db34-b83e-11e6-8fce-33881667706b.jpeg)
 
+In the figure below is the time-deception (the average squared difference of the remaining time for the ball to cross the plate and the predicted time) for 10 different pitcher and the year they pitched over a distance from the plate of 45ft to 5ft.
 
+![tdeception_distance](https://cloud.githubusercontent.com/assets/20291218/20828888/9f4393f6-b847-11e6-9bfb-eaaf5a3324c3.jpeg)
+
+Right now, I am continuing to work on this project everyday, and the next step will be the combine the three types of deceptions into one by fidning different weights for each deception. Then I will need to iterate through for a given pitcher year or even pitch to find different clusters of pitchers. This is new and exciting research that can provide so much information and could go in many different directions. It can also be helpful for determining both hitter and pitcher future success for Major League Teams to factor in when making decisions. 
 
 
 
