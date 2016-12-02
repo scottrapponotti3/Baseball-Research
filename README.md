@@ -14,12 +14,13 @@ In summary I wanted to look at two questions with this research:
 
 **2. Iterate the deceptions over many distances, to identify different clusters of each pitcher's deception, and identifythe success each hitter has against each cluster to determine hitter reaction times, and how well each hitter performs against certian types of pitchers.**
 
-In the figure below is the x-deception for 10 different pitcher and the year they pitched over a distance from the plate of 45ft to 5ft. As you can see the pitcher's had different shapes of curves that all converged to a deception of about 0 when the ball reaches the plate. Clayton Kershaw and David Price had the highest deception, meaning that overall their pitches were more difficult to predict in the x direction.
+In the figure below is the x-deception (the average squared difference of the final x position and the predicted x) for 10 different pitcher and the year they pitched over a distance from the plate of 45ft to 5ft. As you can see the pitcher's had different shapes of curves that all converged to a deception of about 0 when the ball reaches the plate. Clayton Kershaw and David Price had the highest deception, meaning that overall their pitches were more difficult to predict in the x direction.
 
 ![xdeception_distance](https://cloud.githubusercontent.com/assets/20291218/20826989/bfa38eea-b83c-11e6-9657-7c6ea641c972.jpeg)
 
+In the figure below is the z-deception (the average squared difference of the final z position and the predicted z) for 10 different pitcher and the year they pitched over a distance from the plate of 45ft to 5ft.
 
-
+![zdeception_distance2](https://cloud.githubusercontent.com/assets/20291218/20827215/6fe7db34-b83e-11e6-8fce-33881667706b.jpeg)
 
 
 
