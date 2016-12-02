@@ -14,6 +14,7 @@ In summary I wanted to look at two questions with this research:
 
 **2. Iterate the deceptions over many distances, to identify different clusters of each pitcher's deception, and identifythe success each hitter has against each cluster to determine hitter reaction times, and how well each hitter performs against certian types of pitchers.**
 
+In the figure below is the x-deception for 10 different pitchers over a distance from the mound. 
 
 
 
